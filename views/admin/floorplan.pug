@@ -1,0 +1,190 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Dimming Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floor Plan
+
+          li.nav-item
+            a.nav-link(href='/account')
+                span(class="fas fa-user-cog")
+                span User Management
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col
+          br
+      
+      .row
+        .col-12
+          h2(id="site_name") #{user.site}
+        .col-12
+          h4.border-bottom Floor Plan
+
+      .row
+        .col-12
+          .form-row
+            .col-3
+              label Location
+              select(class="form-control" id="block_select" onchange='refreshFloor(this)')
+                option(value='SELECT' selected) Select...
+            .col-3
+              label Floor
+              select(class="form-control" id="floor_select" onchange='loadMap(this)')
+                option(value='SELECT' selected) Select...
+      br
+
+      .row
+        .col-4
+          .row-12
+            ul#myTab.nav.nav-tabs
+              li.nav-item
+                a.nav-link(href='#ep') Endpoint
+              li.nav-item
+                a.nav-link(href='#sg') Sub-Gateway
+              li.nav-item
+                a.nav-link(href='#mg') Main-Gateway
+            br
+
+          .row-12
+            #myTabContent.tab-content
+              #ep.tab-pane.fade.show.active(role='tabpanel')
+                .form-row
+                  .col-12
+                    table(class='table table-sm'
+                          id='device_table'
+                          data-toggle='table'
+                          data-sortable='true'
+                          data-pagination='true'
+                          data-click-to-select='true'
+                          data-height='500'
+                          data-unique-id='ep')
+                      thead(class='thead-dark')
+                        tr
+                          th(data-field='ep' data-halign='center' data-align='center' data-sortable='true') Device ID
+                          th(data-field='nickname' data-halign='center' data-align='center' data-sortable='true') Description
+                          th(data-field='type' data-halign='center' data-align='center' data-sortable='true') Type
+                          th(data-field='floor' data-halign='center' data-align='center' data-sortable='true') Floor
+                br
+
+              #sg.tab-pane.fade(role='tabpanel')
+                .form-row
+                  .col-12
+                    table(class='table table-sm'
+                          id='sg_table'
+                          data-toggle='table'
+                          data-sortable='true'
+                          data-pagination='true'
+                          data-height='500'
+                          data-unique-id='sg')
+                      thead(class='thead-dark')
+                        tr
+                          th(data-field='sg' data-halign='center' data-align='center' data-sortable='true') Sub-Gateway ID
+                          th(data-field='floor' data-halign='center' data-align='center' data-sortable='true') Floor
+                br
+
+              #mg.tab-pane.fade(role='tabpanel')
+                .form-row
+                  .col-12
+                    table(class='table table-sm'
+                          id='mg_table'
+                          data-toggle='table'
+                          data-sortable='true'
+                          data-pagination='true'
+                          data-height='500'
+                          data-unique-id='mg')
+                      thead(class='thead-dark')
+                        tr
+                          th(data-field='mg' data-halign='center' data-align='center' data-sortable='true') Main Gateway ID
+                          th(data-field='name' data-halign='center' data-align='center' data-sortable='true') Location Name
+                          th(data-field='floor' data-halign='center' data-align='center' data-sortable='true') Floor
+                    br
+
+          .row-12
+            .form-row
+              .col-10
+                br
+
+              .col-2
+                button(class='btn btn-info' onclick='saveFloor(this)')
+                  span(class='fas fa-save')
+                  span Save
+
+        .col-8
+          div(id="map" style="width:100%; height:700px;")
+            div.leaflet-bottom.leaflet-right
+              div.leaflet-control-attribution.leaflet-control
+                a(href='http://linked-tech.com.hk/') Linked-tech
+
+    script(src='lamps/lamptype.js')
+    script(src='javascripts/admin/floorplan.js')

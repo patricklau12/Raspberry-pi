@@ -1,0 +1,153 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floorplan
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='management_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-city")
+              span Property Management
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/property')
+                span(class="fas fa-hotel")
+                span Property
+              a.dropdown-item(href='/account')
+                span(class="fas fa-user-cog")
+                span User
+                
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='advanced_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-cogs")
+              span Configuration
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/advanced')
+                span(class="fas fa-cog")
+                span Advanced
+              a.dropdown-item(href='/sg')
+                span(class="fas fa-satellite-dish")
+                span Sub-Gateway
+              a.dropdown-item(href='/filemanager')
+                span(class="fas fa-folder-open")
+                span File Manager
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+          
+    .container-fluid
+      .row
+        .col
+          br
+      
+      .row
+        .col
+          h4.border-bottom Sub-Gateway
+
+      .row
+        .col
+          br
+      
+      .row
+        .col
+          .form-inline
+            button(class='btn btn-info btnNormal' onclick='refresh(this)')
+              span(class='fas fa-sync')
+              span Refresh Table
+
+      .row
+        .col
+          table(class='table'
+                id='sg_table'
+                data-toggle='table'
+                data-search='true'
+                data-show-search-button='true'
+                data-click-to-select='true'
+                data-sortable='true'
+                data-pagination='true'
+                data-filter-control='true'
+                data-show-columns='true'
+                data-show-columns-toggle-all='true'
+                data-unique-id='sg')
+            thead(class='thead-light')
+              tr
+                th(data-field='sg' data-visible='false')
+                th(data-field='operation' data-halign='center' data-width='150' data-align='center') Opertaion
+                th(data-field='configuration' data-halign='center' data-width='150' data-align='center') Configuration
+                th(data-field='frequency' data-halign='center' data-width='100' data-align='center') Frequency
+                th(data-field='connection' data-halign='center' data-align='center' data-width='50' data-sortable='true' data-filter-control='select' data-cell-style="cellStyle") Connection
+                th(data-field='rssi' data-halign='center' data-align='center' data-width='50' data-sortable='true') RSSI
+                th(data-field='coordinator' data-halign='center' data-align='center' data-width='50' data-sortable='true' data-filter-control='select') Coordinator
+                th(data-field='sg_display' data-halign='center' data-align='center' data-width='100' data-sortable='true') Sub-Gateway
+                th(data-field='opt_path' data-halign='center' data-align='center' data-sortable='true') Repeat for
+                th(data-field='listen_to' data-halign='center' data-align='center' data-sortable='true') Listen To
+                th(data-field='mg' data-halign='center' data-align='center' data-width='100' data-sortable='true' data-filter-control='select') Parent Main-Gateway
+
+    script(src='javascripts/superadmin/sg.js')

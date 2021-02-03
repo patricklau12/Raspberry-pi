@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  body        
+    .container-fluid
+      .row
+        .col
+          br
+      
+      .row
+        .col
+          h3.border-bottom Console
+
+      .row
+        .col
+          br
+
+      .row
+        .col
+          .card
+            .card-body(id='debug_window' style='font: 12px "Courier New", Courier, monospace;')
+
+      .row
+        .col
+          br
+
+      .row
+        .col-12
+          .forw-row
+            .col-6
+              button(class='btn btn-info' value='0' onclick='debug_clear(this)')
+                span(class='fas fa-cat')
+                span Clear Window
+            
+            .col-6
+              form(action='/downloadSensorLog' method='GET')
+                button(class='btn btn-success' type='submit')
+                    span(class='fas fa-dog')
+                    span Download Sensor Log
+
+    script(src='javascripts/console.js')

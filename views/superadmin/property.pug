@@ -1,0 +1,370 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floorplan
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='management_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-city")
+              span Property Management
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/property')
+                span(class="fas fa-hotel")
+                span Property
+              a.dropdown-item(href='/account')
+                span(class="fas fa-user-cog")
+                span User
+                
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='advanced_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-cogs")
+              span Configuration
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/advanced')
+                span(class="fas fa-cog")
+                span Advanced
+              a.dropdown-item(href='/sg')
+                span(class="fas fa-satellite-dish")
+                span Sub-Gateway
+              a.dropdown-item(href='/filemanager')
+                span(class="fas fa-folder-open")
+                span File Manager
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row-12
+        .col-12
+          br
+
+      .row-12
+        .col-12
+          h4.border-bottom Property Profile
+
+      .row
+        .col-12
+          br
+
+      .row
+        .col-12
+          ul#myTab.nav.nav-tabs
+            li.nav-item
+              a.nav-link(href='#register') Manage Property
+            li.nav-item
+              a.nav-link(href='#manage') Manage Location
+            li.nav-item
+              a.nav-link(href='#floor') Manage Floor
+      
+      .row
+        .col-12
+          br
+
+      .row
+        .col-12
+          #myTabContent.tab-content
+            #register.tab-pane.fade.show.active(role='tabpanel')
+              .row
+                .col-12
+                  table(class='table'
+                        id='site_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-click-to-select='true'
+                        data-unique-id='site_code'
+                        data-height='400')
+                    thead(class='thead-dark')
+                      tr
+                        th(rowspan='2' data-radio='true')
+                        th(rowspan='2' data-field='site_delete' data-width='50' data-halign='center' data-align='center') 
+                        th(rowspan='2' data-field='site_code' data-width='100' data-halign='center' data-align='center' data-sortable='true') Code
+                        th(rowspan='2' data-field='site_name' data-width='150' data-halign='center' data-align='center' data-sortable='true') Property
+                        th(colspan='4' data-halign='center' data-align='center') Contact
+                        th(colspan='2' data-halign='center' data-align='center') Services Info.
+                        th(colspan='2' data-halign='center' data-align='center') Avatar
+                        
+                      tr
+                        th(data-field='site_person' data-width='100' data-halign='center' data-align='center' data-sortable='true') Person
+                        th(data-field='site_contact' data-width='100' data-halign='center' data-align='center') Tel.
+                        th(data-field='site_email' data-width='200' data-halign='center' data-align='center' data-sortable='true') Email
+                        th(data-field='site_address' data-halign='center' data-align='center') Address
+
+                        th(data-field='site_date' data-width='100' data-halign='center' data-align='center' data-sortable='true') Start Date
+                        th(data-field='site_status' data-width='100' data-halign='center' data-align='center' data-sortable='true') Status
+
+                        th(data-field='site_avatar' data-width='100' data-halign='center' data-align='center') Source
+                        th(data-field='site_view' data-width='50' data-halign='center' data-align='center') View
+                  br
+
+              .row
+                .col-12
+                  br
+
+              .row
+                .col-1
+                  br
+
+                .col-5
+                  label Property Name
+                  .form-row
+                    .col-3
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text ID
+                        input.form-control(type='text' id='site_code' placeholder='Code' onchange='checkCODE(this)')
+                    .col-9
+                      input.form-control(type='text' id='site_name' placeholder='Property Name')
+                  br
+
+                  label Contact
+                  .form-row
+                    .col-12
+                      input.form-control(type='text' id='site_person' placeholder='Contact Person')
+                  br
+                  .form-row
+                    .col-6
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text #
+                        input.form-control(type='text' id='site_contact' placeholder='Tel.')
+                    .col-6
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text @
+                        input.form-control(type='text' id='site_email' placeholder='Email')
+                  br
+
+                .col-5
+                  label Property Address
+                  .form-row
+                    .col-12
+                      input.form-control(type='text' id='site_address' placeholder='Address')
+                  br
+
+                  label Property Avatar
+                  .form-row
+                    .col-12
+                      select(class='form-control' id='site_avatar')
+                  br
+
+                  .form-row
+                    .col-3
+                      button(class='btn btn-primary' id='create_profile' onclick='createSite(this)')
+                        span(class='fas fa-folder-plus')
+                        span Create Profile
+
+                    .col-3
+                      button(class='btn btn-success' id='update_profile' onclick='UpdateSite(this)')
+                        span(class='fas fa-edit')
+                        span Update Profile
+                
+                .col-1
+                  br
+
+            #manage.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  br
+
+              .row
+                .col-6
+                  h5.border-bottom Bind Main-Gateway to Location
+                  br
+                
+              .row
+                .col-6
+                  table(class='table'
+                        id='block_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-filter-control='true'
+                        data-click-to-select='true'
+                        data-unique-id='block_mg')
+                    thead(class='thead-dark')
+                      tr
+                        th(data-field='block_delete' data-width='50' data-halign='center' data-align='center')
+                        th(data-field='block_mg' data-width='200' data-halign='center' data-align='center' data-sortable='true') Main-Gateway
+                        th(data-field='block_prop' data-width='250' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Property
+                        th(data-field='block_name' data-halign='center' data-align='center' data-sortable='true') Location
+                  br
+
+                .col-6
+                  .form-row
+                    .col-6
+                      label Property
+                      select(class='form-control' id='MG_property')
+                        option(value='SELECT') Select...
+                  br
+
+                  .form-row
+                    .col-6
+                      label Location
+                      input.form-control(type='text' id='block' placeholder='Location Name')
+                    .col-6
+                      label(for='MG_list') Main-Gateway
+                      select(class='form-control' id='MG_list')
+                        option(value='SELECT') Select...
+                  br
+
+                  .form-row
+                    .col-6
+                      label(for='MG_list_update') Main-Gateway
+                      input.form-control(type='text' id='MG_list_update' disabled)
+                  br
+                  
+                  .form-row
+                    .col-2
+                      button(class='btn btn-primary' id='bind_mg' onclick='bindMG(this)')
+                        span(class='fas fa-link')
+                        span Bind
+                  
+                  .form-row
+                    .col-6
+                      div(calss='btn-group' role='group' id='update_mg')
+                        button(class='btn btn-success' onclick='updateMG()')
+                          span(class='fas fa-edit')
+                          span Update
+                        button(class='btn btn-info' onclick='cancelupdateMG()')
+                          span(class='fas fa-times')
+                          span Cancel
+
+            #floor.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  br
+
+              .row
+                .col-6
+                  h5.border-bottom Set Floorplan for Location
+                  br
+
+              .row
+                .col-6
+                  table(class='table'
+                        id='floor_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-filter-control='true'
+                        data-unique-id='floor_name')
+                    thead(class='thead-dark')
+                      tr
+                        th(data-field='floor_delete' data-width='50' data-halign='center' data-align='center')
+                        th(data-field='floor_name' data-width='250' data-halign='center' data-align='center' data-sortable='true') Floor
+                        th(data-field='floor_img' data-halign='center' data-align='center' data-sortable='true') Image Source
+                        th(data-field='floor_block' data-width='180' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Location
+                        th(data-field='floor_site' data-width='180' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Property
+                  br
+
+                .col-6
+                  .form-row
+                    img(src='/images/default_image.png' id='imagepreview' style="max-width: 600px; max-height: 400px;")
+                  br
+
+                  .form-row
+                    .col-6
+                      label Property
+                      select(class='form-control' id='site_list' onchange='addBlock(this)')
+                        option(value='SELECT') Select...
+                    .col-6
+                      label Location
+                      select(class='form-control' id='block_list')
+                        option(value='SELECT') Select...
+                  br
+
+                  .form-row
+                    .col-6
+                      label Floorplan
+                      input.form-control(type='text' id='floor_name' placeholder='Floor Name')
+                    .col-6
+                      label Image Layer
+                      select(class='form-control' id='floorplan_img' onchange='changePreview(this)')
+                        option(value='/images/default_image.png') Select...
+                  br
+
+                  .form-row
+                    .col-4
+                      button(class='btn btn-primary' onclick='addFloor(this)')
+                        span(class='fas fa-map')
+                        span Add Floor
+
+      #imgModal.modal
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button' data-dismiss='modal') &times;
+            .modal-body
+              img(src='' id='avatarpreview' style="max-width: 450px; max-height: 450px;")
+
+    script(src='javascripts/superadmin/property.js')

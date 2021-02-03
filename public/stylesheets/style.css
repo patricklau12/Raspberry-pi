@@ -1,0 +1,340 @@
+html, body {
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+  height: 100%;
+}
+
+.slogen{
+  background-color: rgba(255,255,255,0.2);
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #000;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #ffffff !important;
+  text-shadow: 3px 2px 3px rgba(255,234,57,0.0);
+  font-weight: bold;
+}
+
+.wrapper {
+    background-color: rgba(255,255,255,0.4);
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    width: 314px;
+    height: 250px;
+    display: table-cell;
+    vertical-align: middle;
+    font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: #ffffff !important;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.0);
+}
+
+.login{
+  font: 22px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #fff !important;
+  text-shadow: 1px 1px 3px rgba(255,255,255,0.5);
+}
+
+.loginbg {
+  background-image: url("/images/login_background.jpg");
+  background-color: rgb(255, 255, 255);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: auto;
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #FFFFFF !important;
+  text-shadow: 2px 2px 7px rgb(0,174,239);
+  height: 92%;
+  overflow: hidden;
+}
+
+.navbar {
+    background-color: #000000;
+    font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: #ffffff ;
+}
+
+.navbar-text1{
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif, ;
+  font-weight:bold;
+  color: #ffffff ;
+}
+
+.navbar-brand span{
+  padding-left: 0.5em;
+  color: #FFFFFF !important;
+}
+
+.nav-item span{
+  padding-right: 0.5em;
+  font-size: 20px !important;
+}
+
+.nav-tabs { 
+  border-bottom: 2px solid #DDD; 
+}
+
+.nav-tabs > li > a {
+    border: none;
+    color: #666;
+}
+
+.nav-tabs > li.nav-item > a,
+.nav-tabs > li.nav-item > a:hover {
+    border: none;
+    color: #4285F4 !important;
+    background: transparent;
+    position: relative;
+}
+
+.nav-tabs > li.nav-item > a::after {
+    content: "";
+    background: #4285F4;
+    height: 2px;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: -1px;
+    transition: all 250ms ease 0s;
+    transform: scale(0);
+}
+
+.nav-tabs > li.nav-item > a.active::after,
+.nav-tabs > li.nav-item:hover > a::after {
+    transform: scale(1);
+}
+
+.table {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.alert.alert-info {
+  font: 28px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #000000 !important;
+}
+
+.alert.alert-primary {
+  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #000000 !important;
+}
+
+.myprogress {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #000000 !important;
+}
+
+.form-inline > * {
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+
+.card-body {
+  white-space: pre !important;
+}
+
+.fas {
+  padding-left: 0.1em;
+  padding-right: 0.1em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+}
+
+.fa-caret-square-down{
+  width: 5px;
+  height: 5px;
+}
+
+.loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.7);
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  border: 4px solid #fff;
+  animation: loader 4s infinite ease;
+}
+
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  animation: loader-inner 4s infinite ease-in;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  25% {
+    transform: rotate(180deg);
+  }
+  
+  50% {
+    transform: rotate(180deg);
+  }
+  
+  75% {
+    transform: rotate(360deg);
+  }
+  
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-inner {
+  0% {
+    height: 0%;
+  }
+  
+  25% {
+    height: 0%;
+  }
+  
+  50% {
+    height: 100%;
+  }
+  
+  75% {
+    height: 100%;
+  }
+  
+  100% {
+    height: 0%;
+  }
+}
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+#upload {
+    opacity: 0;
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    border: 2px dashed rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    position: relative;
+}
+
+.image-area::before {
+    content: 'Uploaded image result';
+    color: #000;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
+
+.img-responsive {
+  margin: 0 auto;
+}
+
+/*////////////////////////VALIDATION CHECK////////////////////////////////
+//////////////////////////VALIDATION CHECK////////////////////////////////
+/* The message box is shown when the user clicks on the password field */
+#adminmessage {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 10px;
+  margin-top: 10px;
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#adminmessage p {
+  padding: 10px 35px;
+  
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#usermessage {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 10px;
+  margin-top: 10px;
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#usermessage p {
+  padding: 10px 35px;
+  
+  font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+/*Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+  content: "✔";
+}
+/*Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+  content: "✖";
+}
+
+.stylePopup .leaflet-popup-content-wrapper,
+.stylePopup .leaflet-popup-tip {
+    background-color: #ffffff;
+    
+}
+
+.button-blue{
+  color: rgb(100, 198, 236) !important;
+}
+.button-yellow{
+  color: rgb(250, 231, 60) !important;
+}
+.button-green{
+  color: rgb(99, 197, 99) !important;
+}
+.button-orange{
+  color: rgb(240, 120, 50) !important;
+}

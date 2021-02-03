@@ -1,0 +1,156 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floorplan
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='management_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-city")
+              span Property Management
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/property')
+                span(class="fas fa-hotel")
+                span Property
+              a.dropdown-item(href='/account')
+                span(class="fas fa-user-cog")
+                span User
+                
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='advanced_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-cogs")
+              span Configuration
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/advanced')
+                span(class="fas fa-cog")
+                span Advanced
+              a.dropdown-item(href='/sg')
+                span(class="fas fa-satellite-dish")
+                span Sub-Gateway
+              a.dropdown-item(href='/filemanager')
+                span(class="fas fa-folder-open")
+                span File Manager
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col-12
+          br
+      
+      .row
+        .col-12
+          h4.border-bottom File Manager
+
+      .row
+        .col-12
+          br
+
+      .row
+        .col-4
+          form(action="/uploadimage" method="post" enctype="multipart/form-data")
+            input(type="file" name="image" accept="image/*")
+            button(class='btn btn-primary' type='submit')
+              span(class="fas fa-upload")
+              span Upload
+        
+        .col-8
+          if message.length
+            div(id="message")
+                div(class="alert alert-danger text-center") #{message}
+      
+      .row
+        .col-12
+          br
+          br
+          br
+
+      .row
+        .col-6
+          img(src='/images/default_image.png' id='imagepreview' style="max-width: 100%; max-height: 600px;")
+
+        .col-6
+          table(class='table table-md'
+                id='imagetable'
+                data-toggle='table'
+                data-search='true'
+                data-show-search-button='true'
+                data-sortable='true'
+                data-pagination='true'
+                data-unique-id='image')
+            thead(class='thead-dark')
+              tr
+                th(data-field='delete' data-width='50' data-halign='center' data-align='center') Delete
+                th(data-field='view' data-width='50' data-halign='center' data-align='center') View
+                th(data-field='image' data-halign='center' data-align='center' data-sortable='true') Image
+
+    script(src='javascripts/superadmin/filemanager.js')

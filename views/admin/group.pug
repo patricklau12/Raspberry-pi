@@ -1,0 +1,329 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Dimming Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floor Plan
+
+          li.nav-item
+            a.nav-link(href='/account')
+                span(class="fas fa-user-cog")
+                span User Management
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col-12
+          br
+      
+      .row
+        .col-12
+          h2(id="site_name") #{user.site}
+        .col-12
+          h4.border-bottom Grouping &amp; Naming
+
+      .row
+        .col-12
+          br
+      
+      .row
+        .col-12
+          ul#myTab.nav.nav-tabs
+            li.nav-item
+              a.nav-link(href='#create') Create New Group
+            li.nav-item
+              a.nav-link(href='#add') Add Device to Group
+            li.nav-item
+              a.nav-link(href='#nickname') Set Description of Devices
+            li.nav-item
+              a.nav-link(href='#lamptype') Set Lamp Type
+              
+
+      .row
+        .col-12
+          br
+
+      .row
+        .col-12
+          #myTabContent.tab-content
+            #create.tab-pane.fade.show.active(role='tabpanel')
+              .row
+                .col-12
+                  br
+
+              .row
+                .col-8
+                  h5.border-bottom Create New Group
+                  br
+
+              .row
+                .col-8
+                  .form-row                    
+                    .col-6
+                      label Location
+                      select(class="form-control" id="create_block_select" onchange='refreshCreateTable(this)')
+                        option(value='SELECT' selected) Select...
+                  br
+                
+              .row
+                .col-8
+                  table(class='table table-sm'
+                        id='create_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-unique-id='create_group')
+                    thead(class='thead-dark')
+                      tr
+                        th(data-field='create_delete' data-halign='center' data-align='center') 
+                        th(data-field='create_group' data-halign='center' data-align='center' data-sortable='true') Group
+                        th(data-field='create_list' data-width='200' data-halign='center' data-align='center' data-sortable='true') No. of Devices
+                
+                .col-4
+                  label Create Group
+                  .form-row
+                    .col-8
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text Group
+                        input.form-control(type='text' id='create_group_name' placeholder='Name')
+
+                    .col-4
+                      button(class='btn btn-primary' onclick='createGroup(this)')
+                        span(class='fas fa-folder-plus')
+                        span Create Group
+
+            #add.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  br
+
+              .row
+                .col-8
+                  h5.border-bottom Add Devices to Group
+                  br
+
+              .row
+                .col-8
+                  .form-row
+                    .col-6
+                      label Location
+                      select(class="form-control" id="add_block_select" onchange='refreshAddTable(this)')
+                        option(value='SELECT' selected) Select...
+                  br
+              
+              .row
+                .col-8
+                  table(class='table table-sm'
+                        id='add_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-click-to-select='ture'
+                        data-unique-id="add_ep")
+                    thead(class='thead-dark')
+                      tr
+                        th(data-checkbox='true' data-checkbox-enabled='true')
+                        th(data-field='add_ep' data-width='200' data-halign='center' data-align='center' data-sortable='true') Device ID
+                        th(data-field='add_nickname' data-width='200' data-halign='center' data-align='center' data-sortable='true') Description
+                        th(data-field='add_group' data-width='200' data-halign='center' data-align='center' data-sortable='true') Group
+                
+                .col-4
+                  label Add to Group
+                  .form-row
+                    .col-8
+                      select(class='form-control' id='add_group_select')
+                        option(value='SELECT' selected) Select...
+
+                    .col-4
+                      button(class='btn btn-info' onclick='addGroup(this)')
+                          span(class='fas fa-plus')
+                          span Add to Group
+
+            #nickname.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  br
+
+              .row
+                .col-8
+                  h5.border-bottom Set Description of Devices
+                  br
+
+              .row
+                .col-8
+                  .form-row
+                    .col-6
+                      label Location
+                      select(class="form-control" id="nickname_block_select" onchange='refreshNicknameTable(this)')
+                        option(value='SELECT' selected) Select...
+                  br
+
+              .row
+                .col-8
+                  table(class='table table-sm'
+                        id='nickname_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-unique-id="nickname_ep")
+                    thead(class='thead-dark')
+                      tr
+                        th(data-field='nickname_ep' data-width='100' data-halign='center' data-align='center' data-sortable='true') Device ID
+                        th(data-field='nickname_name' data-halign='center' data-align='center' data-sortable='true') Description
+                        th(data-field='nickname_group' data-halign='center' data-align='center' data-sortable='true') Group
+                        th(data-field='nickname_floor' data-halign='center' data-align='center' data-sortable='true') Floor
+                        th(data-field='nickname_type' data-halign='center' data-align='center' data-sortable='true') Lamp Type
+                        th(data-field='nickname_watt' data-halign='center' data-align='center' data-sortable='true') Power
+                        
+
+                .col-4
+                  label Set Description
+                  .form-row
+                    .col-12
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text ID
+                        input.form-control(type='text' id='nickname_set_id' placeholder='Device ID')
+                      br
+
+                    .col-8
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text Name
+                        input.form-control(type='text' id='nickname_set_name' placeholder='New Description')                        
+                      br
+
+                    .col-4
+                      button(class='btn btn-info' onclick='editDescription(this)')
+                        span(class='fas fa-edit')
+                        span Edit Description
+
+            #lamptype.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  br
+
+              .row
+                .col-8
+                  h5.border-bottom Set Lamp Type
+                  br
+
+              .row
+                .col-8
+                  .form-row
+                    .col-6
+                      label Location
+                      select(class="form-control" id="type_block_select" onchange='refreshTypeTable(this)')
+                        option(value='SELECT' selected) Select...
+                  br
+
+              .row
+                .col-8
+                  table(class='table table-sm'
+                        id='type_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-click-to-select='ture'
+                        data-unique-id='type_ep')
+                    thead(class='thead-dark')
+                      tr
+                        th(data-checkbox='true' data-checkbox-enabled='true')
+                        th(data-field='type_ep' data-width='200' data-halign='center' data-align='center' data-sortable='true') Device ID
+                        th(data-field='type_nickname' data-width='200' data-halign='center' data-align='center' data-sortable='true') Description
+                        th(data-field='type_group' data-width='200' data-halign='center' data-align='center' data-sortable='true') Group
+                        th(data-field='type_floor' data-width='200' data-halign='center' data-align='center' data-sortable='true') Floor
+                        th(data-field='type_type' data-width='200' data-halign='center' data-align='center' data-sortable='true') Lamp Type
+                        th(data-field='type_power' data-width='100' data-halign='center' data-align='center' data-sortable='true') Power
+
+                .col-4
+                  label Set Type
+                  .form-row
+                    .col-8
+                      select(class="form-control" id="lamp_type_select")
+                        option(value='SELECT' selected) Select...
+                    
+                    .col-4
+                      .input-group
+                        input.form-control(type='number' id='lamp_watt' min='0' oninput="validity.valid||(value='');" placeholder='Power')
+                        .input-group-append
+                          span.input-group-text Watt
+                  br
+
+                  .form-row
+                    .col-4
+                      button(class='btn btn-info' onclick='editType()')
+                        span(class='fas fa-lightbulb')
+                        span Edit Type
+
+    script(src='javascripts/admin/group.js')

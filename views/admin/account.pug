@@ -1,0 +1,237 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Dimming Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floor Plan
+
+          li.nav-item
+            a.nav-link(href='/account')
+                span(class="fas fa-user-cog")
+                span User Management
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col-12
+          br
+      
+      .row.border-bottom
+        .col-12
+          h2(id="site_name") #{user.site}
+        .col-12
+          h4 User
+            
+      .row
+        .col-12
+          table(class='table'
+                id='user_table'
+                data-toggle='table'
+                data-click-to-select='true'
+                data-sortable='true'
+                data-pagination='true'
+                data-filter-control='true'
+                data-height='400'
+                data-unique-id='user_id')
+            thead(class='thead-dark')
+              tr
+                th(data-field='action' data-halign='center' data-align='center' data-sortable='false' data-width='100') Action
+                th(data-field='user_id' data-halign='center' data-align='center' data-sortable='true' data-width='200') User ID
+                th(data-field='user_name' data-halign='center' data-align='center' data-sortable='true') User Name
+                th(data-field='bic' data-halign='center' data-align='center' data-sortable='true') Building in Charge
+          br
+
+      .row
+        .col-12
+          ul#myTab.nav.nav-tabs
+            li.nav-item
+              a.nav-link.active(href='#user') Create User
+            li.nav-item
+              a.nav-link(href='#bic') Authorize User
+
+      .row
+        .col-12
+          br
+
+      .row
+        .col-12
+          #myTabContent.tab-content
+            #user.tab-pane.fade.show.active(role='tabpanel')
+              .row
+                .col-12
+                  h5.border-bottom User Information
+
+              .row
+                .col-1
+                  br
+
+                .col-5
+                  .form-row
+                    .col-6
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text ID
+                        input.form-control(type='text' id='user_id' placeholder='User ID' required onchange='checkUserID(this)')
+                    .col-6
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text Name
+                        input.form-control(type='text' id='user_name' placeholder='User Name' required)
+                  br
+
+                  .form-row
+                    .col-6
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text Password
+                        input.form-control(type='text' id='user_password' placeholder='Password' required)
+                    .col-6
+                      .input-group
+                        .input-group-prepend
+                          span.input-group-text Type
+                        input.form-control(type='text' id='user_type' placeholder='Type' value='User' disabled)
+                  br
+
+                  .form-row
+                    .col-4
+                      button(type='submit' class='btn btn-success' onclick='saveUser(this)')
+                        span(class='fas fa-user-plus')
+                        span Create
+                    
+                    .col-4
+                      button(class='btn btn-success' id='update_user' onclick='updateUser(this)')
+                        span(class='fas fa-edit')
+                        span Update User
+
+                .col-5
+                  br
+                  #usermessage Password must contain the following:
+                    
+                    p#letter1.invalid
+                      | A 
+                      b lowercase
+                      |  letter
+                    p#capital1.invalid
+                      | A 
+                      b CAPITAL (Uppercase)
+                      |  letter
+                    p#number1.invalid
+                      | A 
+                      b number
+                    p#length1.invalid
+                      | Minimum 
+                      b 12 characters
+                
+                .col-1
+                  br
+
+            #bic.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  h5.border-bottom Authorize User to Monitor Locations
+
+              .row
+                .col-1
+                  br
+
+                .col-5
+                  table(class='table table-sm'
+                        id='bic_table'
+                        data-toggle='table'
+                        data-sortable='true'
+                        data-click-to-select='ture'
+                        data-unique-id='mgid')
+                    thead(class='thead-dark')
+                      tr
+                        th(data-checkbox='true' data-checkbox-enabled='true')
+                        th(data-field='block' data-halign='center' data-align='center' data-sortable='true') Location
+                        th(data-field='mgid' data-halign='center' data-align='center' data-sortable='true') Main-Gateway ID
+                        th(data-field='user' data-halign='center' data-align='center' data-sortable='true') Users in Charge
+
+                .col-5
+                  .form-row
+                    .col-6
+                      label User:
+                      select(class='form-control' id='bic_user' onchange='checkBIC()')
+                        option(value='SELECT' selected) Select...
+                    
+                  .form-row
+                    .col-6
+                      button(type='submit' class='btn btn-info' onclick='addUser2Location(this)')
+                        span(class='fas fa-address-card')
+                        span Authorize
+                  br
+                  
+                .col-1
+                  br
+
+    script(src='javascripts/admin/account.js')

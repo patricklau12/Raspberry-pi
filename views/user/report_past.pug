@@ -1,0 +1,102 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col
+          br
+
+      .row.border-bottom
+        .col-12
+          h2(id="site_name") #{user.site}
+          h5(id="user_name" hidden) #{user.username}
+        .col-12
+          h4 Archived Test Report
+
+      .row
+        .col-12
+          .form-inline
+            label Archive:
+            select(class="form-control" id="record_select" onchange='getReport(this)')
+              option(value='SELECT' selected) Archive Select...
+
+            label Type:
+            select(class="form-control" id="type_select" onchange='getReport(this)')
+              option(value='func' selected) Functional Test (1 minute)
+              option(value='dura') Durational Test (2 hours)
+
+            label Location:
+            select(class="form-control" id="block_select" onchange='getReport(this)')
+              option(value='SELECT' selected) Location Select...
+
+            button(class='btn btn-info' onclick='download(this)' data-toggle="tooltip" data-placement="top" title="Download Report (PDF)")
+              span(class='fas fa-file-pdf')
+        br
+
+      .row
+        .col-12
+          table(class='table table-sm'
+                id='report_table'
+                data-toggle='table'
+                data-sortable='true')
+            thead(class='thead-dark')
+              tr
+                th(data-field='device' data-halign='center' data-align='center' data-sortable='true') Device ID
+                th(data-field='nickname' data-halign='center' data-align='center') Description
+                th(data-field='group' data-halign='center' data-align='center' data-sortable='true') Group
+                th(data-field='floor' data-halign='center' data-align='center' data-sortable='true') Floor
+                th(data-field='type' data-halign='center' data-align='center' data-sortable='true') Type of Lamp
+                th(data-field='watt' data-halign='center' data-align='center' data-sortable='true') Watt
+                th(data-field='test_time' data-halign='center' data-align='center') Test Date
+                th(data-field='discharge_time' data-halign='center' data-align='center') Discharge Time
+                th(data-field='discharge_res' data-halign='center' data-align='center') Discharge Result
+                th(data-field='test_res' data-halign='center' data-align='center') Test Result
+
+    script(src='javascripts/user/report_past.js')

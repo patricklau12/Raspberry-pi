@@ -1,0 +1,97 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/sensor')
+        img(src="/images/Avanlite-Logo.png" style="height:30px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/sensor')
+              span(class="fas fa-home")
+              span Project Toilet
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col-12
+          br
+    
+      .row
+        .col-12
+          table(style='width:80%',align='center')
+            tbody
+              tr
+                th
+                  .card
+                    img(src="images/Sensor-State/waterTrue.png" style="height:300px; width:300px;" id='water' class='sensorState img-responsive img-center' value='0' data-toggle="tooltip" data-placement="top" title="Water Leakage")
+                th 
+                  .card
+                    img(src="images/Sensor-State/doorTrue.png" style="height:300px; width:300px;" id='door' class='sensorState img-responsive img-center' value='1' data-toggle="tooltip" data-placement="top" title="Door Dectection")
+                th 
+                  .card
+                    img(src="images/Sensor-State/smokeTrue.png" style="height:300px; width:300px;" id='smoke' class='sensorState img-responsive img-center' value='2' data-toggle="tooltip" data-placement="top" title="Smoke Detection")
+                th 
+                  .card
+                    img(src="images/Sensor-State/windowTrue.png" style="height:300px; width:300px;" id='window' class='sensorState img-responsive img-center' value='3' data-toggle="tooltip" data-placement="top" title="Window Detection")
+                
+              tr
+                th 
+                  .card
+                    img(src="images/Sensor-State/toiletTrue.png" style="height:300px; width:300px;" id='toilet' class='sensorState img-responsive img-center' value='4' data-toggle="tooltip" data-placement="top" title="Toilet Usage")
+                th 
+                  .card
+                    img(src="images/Sensor-State/queue_0.png" style="height:300px; width:300px;" id='queue' class='sensorState img-responsive img-center' value='5' data-toggle="tooltip" data-placement="top" title="Queue Counter")
+                th 
+                  .card
+                    img(src="images/Sensor-State/paper_0.png" style="height:300px; width:300px;" id='paper' class='sensorState img-responsive img-center' value='6' data-toggle="tooltip" data-placement="top" title="Toilet Paper Usage")
+                th 
+                  .card
+                    img(src="images/Sensor-State/tissue_0.png" style="height:300px; width:300px;" id='tissue' class='sensorState img-responsive img-center' value='7' data-toggle="tooltip" data-placement="top" title="Tissue Usage")
+
+              tr
+                th 
+                  .card
+                    img(src="images/Sensor-State/soapTrue.png" style="height:300px; width:300px;" id='soap' class='sensorState img-responsive img-center' value='4' data-toggle="tooltip" data-placement="top" title="Soap Volume")
+                th 
+                  .card
+                    img(src="images/Sensor-State/bin_0.png" style="height:300px; width:300px;" id='bin' class='sensorState img-responsive img-center' value='5' data-toggle="tooltip" data-placement="top" title="Bin Capacity")
+                th 
+                  .card
+                    img(src="images/Sensor-State/urinalTrue.png" style="height:300px; width:300px;" id='urinal' class='sensorState img-responsive img-center' value='6' data-toggle="tooltip" data-placement="top" title="Urinal Usage")
+                th 
+                  .card
+                    img(src="images/Sensor-State/smoke2True.png" style="height:300px; width:300px;" id='smoke2' class='sensorState img-responsive img-center' value='7' data-toggle="tooltip" data-placement="top" title="Smoke Detection 2")        
+
+                tr
+                  th 
+                    .card
+                      img(src="images/Sensor-State/water.png" style="height:300px; width:300px;" id='water2' class='sensorState img-responsive img-center' value='4' data-toggle="tooltip" data-placement="top" title="Wet Floor")
+                      .card-body
+                        h5(id='water_time') Last Update:
+                  th 
+                    .card
+                      img(src="images/Sensor-State/air.png" style="height:300px; width:300px;" id='air' class='sensorState img-responsive img-center' value='5' data-toggle="tooltip" data-placement="top" title="Air Quality")                                                 
+                      .card-body
+                        h5(id='aqi')
+
+    script(src='javascripts/sensor.js')
+        
+
+
+
+                

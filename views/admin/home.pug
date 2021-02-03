@@ -1,0 +1,265 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Dimming Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floor Plan
+
+          li.nav-item
+            a.nav-link(href='/account')
+                span(class="fas fa-user-cog")
+                span User Management
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col
+          br
+
+      .row
+        .col-6
+          h2(id="site_name") #{user.site}
+
+      .row
+        .col-12
+          ul#myTab.nav.nav-tabs
+            li.nav-item
+              a.nav-link.active(href='#main') Overview
+            li.nav-item
+              a.nav-link(href='#table') Table View
+            li.nav-item
+              a.nav-link(href='#floorplan') Floorplan View
+          br
+
+
+      .row
+        .col-12
+          #myTabContent.tab-content
+            #main.tab-pane.fade.show.active(role='tabpanel')
+              .row
+                .col-12
+                  br
+
+                .col-4(class='text-center')
+                  img(src="" id='site_img' class='img-fluid w-100' style="vertical-align: middle; border-radius: 5%; max-width: 80%;")
+                  br
+                
+                .col-8
+                  .row
+                    .col-4
+                      button(class='btn btn-info' onclick='monitor_refresh()')
+                        span(class='fas fa-sync')
+                        span Refresh
+
+                  .row
+                    .col-12
+                      table(class='table'
+                            id='monitor_table'
+                            data-toggle='table'
+                            data-search='true'
+                            data-show-search-button='true'
+                            data-sortable='true'
+                            data-pagination='true'
+                            data-unique-id='block_id')
+                        thead(class='thead-dark')
+                          tr
+                            th(rowspan='2' data-field='block_id' data-width='50' data-halign='center' data-align='center' data-sortable='true') #
+                            th(rowspan='2' data-field='block_name' data-halign='center' data-align='center' data-sortable='true') Locations
+                            th(colspan='3' data-halign='center') Connection Status
+                            th(rowspan='2' data-field='dimming' data-width='150' data-halign='center' data-align='center') Dimming Mode
+                            th(rowspan='2' data-field='issue' data-width='50' data-halign='center' data-align='center' data-cell-style='cellStyle_Issue') Issue
+                          tr
+                            th(data-field='mg' data-width='75' data-halign='center' data-align='center' data-cell-style='cellStyle') Main-Gateway
+                            th(data-field='sg' data-width='75' data-halign='center' data-align='center' data-cell-style='cellStyle_Summary') Sub-Gateway
+                            th(data-field='ep' data-width='75' data-halign='center' data-align='center' data-cell-style='cellStyle_Summary') Endpoint
+
+            #table.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  .form-inline
+                    label Location:
+                    select(class="form-control" id="block_select" onchange='block_refresh(this)')
+                      option(selected) Select...
+
+                    button(class='btn btn-primary' value='0' onclick='block_refresh(this)')
+                      span(class='fas fa-sync')
+                      span Refresh
+
+              .row
+                .col-12
+                  table(class='table table-sm'
+                        id='devicetable'
+                        data-toggle='table'
+                        data-search='true'
+                        data-show-search-button='true'
+                        data-click-to-select='true'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-filter-control='true'
+                        data-show-columns='true'
+                        data-show-columns-toggle-all='true'
+                        data-show-export='false'
+                        data-unique-id='epid')
+                    thead(class='thead-dark')
+                      tr
+                        th(data-radio='true')
+                        th(data-field='epid' data-visible='false')
+                        th(data-field='request_sync' data-halign='center' data-align='center') Operation
+                        th(data-field='sensor_set' data-halign='center' data-align='center') Sensor Trigger
+                        th(data-field='dimming_set' data-halign='center' data-align='center') Dimming Trigger
+                        th(data-field='connection' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select' data-cell-style="cellStyle") Connection
+                        th(data-field='devices' data-halign='center' data-align='center' data-sortable='true') Device
+                        th(data-field='sg' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select' data-visible='false') Parent Sub-Gateway
+                        th(data-field='nickname' data-halign='center' data-align='center') Description
+                        th(data-field='type' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Type
+                        th(data-field='watt' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Power
+                        th(data-field='floor' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Floor
+                        th(data-field='group' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Group
+                        th(data-field='ac' data-halign='center' data-align='center') AC Power
+                        th(data-field='m_switch' data-halign='center' data-align='center' data-visible='false') Manual Switch
+                        th(data-field='sync' data-halign='center' data-align='center' data-filter-control='select' data-visible='false') Sync
+                        th(data-field='sensor' data-halign='center' data-align='center' data-visible='false') Build-in Sensor
+                        th(data-field='battery' data-halign='center' data-align='center') Battery
+                        th(data-field='pwm' data-halign='center' data-align='center') Brightness
+                        th(data-field='pwm_mode' data-halign='center' data-align='center' data-visible='false') Mode
+                        th(data-field='sensor_mode' data-halign='center' data-align='center' data-visible='false') Sensor Mode
+                        th(data-field='sensor_hold' data-halign='center' data-align='center' data-visible='false') Sensor Holding Time
+                        th(data-field='func_test_res' data-halign='center' data-align='center' data-visible='false') Functional Test Result
+                        th(data-field='dura_test_res' data-halign='center' data-align='center' data-visible='false') Duration Test Result
+                        th(data-field='blink_test_res' data-halign='center' data-align='center' data-visible='false') Short Test Result
+            
+            #floorplan.tab-pane.fade(role='tabpanel')
+              .row
+                .col-12
+                  .form-inline
+                    label Location:
+                    select(class="form-control" id="map_block_select" onchange='map_block_refresh(this)')
+                      option(value='SELECT' selected) Select...
+
+                    label Floor:
+                    select(class="form-control" id="map_select" onchange='loadMap(this)')
+                      option(value='SELECT' selected) Select...
+                  br
+                  
+              .row
+                .col-12
+                  div(id="map" style="width:100%; height:600px; margin:auto;")
+                    div.leaflet-bottom.leaflet-right
+                      div.leaflet-control-attribution.leaflet-control
+                        a(href='http://linked-tech.com.hk/') Linked-tech
+                br
+              
+              .row
+                .col-12
+                  table(class='table table-sm'
+                        id='floor_table'
+                        data-toggle='table'
+                        data-search='true'
+                        data-show-search-button='true'
+                        data-click-to-select='true'
+                        data-sortable='true'
+                        data-pagination='true'
+                        data-filter-control='true'
+                        data-show-columns='true'
+                        data-show-columns-toggle-all='true'
+                        data-show-export='false'
+                        data-unique-id='epid')
+                    thead(class='thead-dark')
+                      tr
+                        th(data-radio='true')
+                        th(data-field='epid' data-visible='false')
+                        th(data-field='connection' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select' data-cell-style="cellStyle") Connection
+                        th(data-field='sensor_set' data-halign='center' data-align='center') Sensor Trigger
+                        th(data-field='dimming_set' data-halign='center' data-align='center') Dimming Trigger
+                        th(data-field='devices' data-halign='center' data-align='center' data-sortable='true') Device
+                        th(data-field='sg' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select' data-visible='false') Parent Sub-Gateway
+                        th(data-field='nickname' data-halign='center' data-align='center') Description
+                        th(data-field='type' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Type
+                        th(data-field='watt' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Power
+                        th(data-field='group' data-halign='center' data-align='center' data-sortable='true' data-filter-control='select') Group
+                        th(data-field='ac' data-halign='center' data-align='center') AC Power
+                        th(data-field='m_switch' data-halign='center' data-align='center' data-visible='false') Manual Switch
+                        th(data-field='sync' data-halign='center' data-align='center' data-filter-control='select' data-visible='false') Sync
+                        th(data-field='sensor' data-halign='center' data-align='center' data-visible='false') Build-in Sensor
+                        th(data-field='battery' data-halign='center' data-align='center') Battery
+                        th(data-field='pwm' data-halign='center' data-align='center') Brightness
+                        th(data-field='pwm_mode' data-halign='center' data-align='center' data-visible='false') Mode
+                        th(data-field='sensor_mode' data-halign='center' data-align='center' data-visible='false') Sensor Mode
+                        th(data-field='sensor_hold' data-halign='center' data-align='center' data-visible='false') Sensor Holding Time
+                        th(data-field='func_test_res' data-halign='center' data-align='center' data-visible='false') Functional Test Result
+                        th(data-field='dura_test_res' data-halign='center' data-align='center' data-visible='false') Duration Test Result
+                        th(data-field='blink_test_res' data-halign='center' data-align='center' data-visible='false') Short Test Result
+
+    script(src='javascripts/driver.js')
+    script(src='lamps/lamptype.js')
+    script(src='javascripts/admin/home_admin.js')
+    

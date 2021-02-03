@@ -1,0 +1,645 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floorplan
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='management_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-city")
+              span Property Management
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/property')
+                span(class="fas fa-hotel")
+                span Property
+              a.dropdown-item(href='/account')
+                span(class="fas fa-user-cog")
+                span User
+                
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='advanced_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-cogs")
+              span Configuration
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/advanced')
+                span(class="fas fa-cog")
+                span Advanced
+              a.dropdown-item(href='/sg')
+                span(class="fas fa-satellite-dish")
+                span Sub-Gateway
+              a.dropdown-item(href='/filemanager')
+                span(class="fas fa-folder-open")
+                span File Manager
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row-12
+        .col-12
+          br
+      
+      .row-12
+        .col-12
+          h4.border-bottom Schedule
+
+      .row-12
+        .col
+          br
+
+      .row-12
+        .col-2
+          button(class='btn btn-info' onclick='schedule_refresh(this)')
+            span(class='fas fa-sync')
+            span Refresh
+          
+      .row-12
+        .col-12
+          table(class='table'
+                id='schedule_table'
+                data-toggle='table'
+                data-search='true'
+                data-show-search-button='true'
+                data-click-to-select='true'
+                data-sortable='true'
+                data-pagination='true'
+                data-unique-id='mode'
+                data-filter-control='true')
+            thead(class='thead-dark')
+              tr
+                th(colspan='3' data-halign='center')
+                th(colspan='2' data-halign='center') Session 1
+                th(colspan='2' data-halign='center') Session 2
+                th(colspan='2' data-halign='center') Session 3
+                th(colspan='2' data-halign='center') Session 4
+              tr
+
+                th(data-field='delete' data-halign='center' data-align='center')
+                th(data-field='mode' data-sortable='true' data-halign='center' data-align='center') Mode
+                th(data-field='site' data-sortable='true' data-halign='center' data-align='center') Property
+
+                th(data-field='s1_time' data-halign='center' data-align='center' data-width='200') Start Time
+                th(data-field='s1_lv' data-halign='center' data-align='center' data-width='100') Level
+
+                th(data-field='s2_time' data-halign='center' data-align='center' data-width='200') Start Time
+                th(data-field='s2_lv' data-halign='center' data-align='center' data-width='100') Level
+
+                th(data-field='s3_time' data-halign='center' data-align='center' data-width='200') Start Time
+                th(data-field='s3_lv' data-halign='center' data-align='center' data-width='100') Level
+
+                th(data-field='s4_time' data-halign='center' data-align='center' data-width='200') Start Time
+                th(data-field='s4_lv' data-halign='center' data-align='center' data-width='100') Level                
+
+      .row-12
+        .col
+          br
+          br
+          br
+
+      .row-12
+        .row
+          .col
+            h5.border-bottom Create Mode:
+            br
+
+        .row
+          .col-3
+            label Mode Name:
+            .form-group
+              .form-row
+                .col-8
+                  input.form-control(type='text' id='mode_name' placeholder='Name')
+                .col-4
+                  button(class='btn btn-primary' value='0' onclick='add_mode(this)')
+                    span(class='fas fa-plus')
+                    span Add
+                br
+                br
+                br
+
+        .row
+          .col-3
+            h6.border-bottom Session 1
+            br
+            .form-group
+              .form-row
+                .col-12
+                  label Brightness
+                  select(class="form-control" id="s1")
+                      option(value='a0' selected) 100%
+                      option(value='90') 90%
+                      option(value='80') 80%
+                      option(value='70') 70%
+                      option(value='60') 60%
+                      option(value='50') 50%
+                      option(value='40') 40%
+                      option(value='30') 30%
+                      option(value='20') 20%
+                      option(value='10') 10%
+                      option(value='00') 0%
+              br
+              br
+              .form-row
+                .col-6
+                  label Time
+                  select(class="form-control" id="s1_hh")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+
+                .col-6
+                  label &nbsp;
+                  select(class="form-control" id="s1_mm")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+                    option(value='24') 24
+                    option(value='25') 25
+                    option(value='26') 26
+                    option(value='27') 27
+                    option(value='28') 28
+                    option(value='29') 29
+                    option(value='30') 30
+                    option(value='31') 31
+                    option(value='32') 32
+                    option(value='33') 33
+                    option(value='34') 34
+                    option(value='35') 35
+                    option(value='36') 36
+                    option(value='37') 37
+                    option(value='38') 38
+                    option(value='39') 39
+                    option(value='40') 40
+                    option(value='41') 41
+                    option(value='42') 42
+                    option(value='43') 43
+                    option(value='44') 44
+                    option(value='45') 45
+                    option(value='46') 46
+                    option(value='47') 47
+                    option(value='48') 48
+                    option(value='49') 49
+                    option(value='50') 50
+                    option(value='51') 51
+                    option(value='52') 52
+                    option(value='53') 53
+                    option(value='54') 54
+                    option(value='55') 55
+                    option(value='56') 56
+                    option(value='57') 57
+                    option(value='58') 58
+                    option(value='59') 59
+
+          .col-3
+            h6.border-bottom Session 2
+            br
+            .form-group
+              .form-row
+                .col-12
+                  label Brightness
+                  select(class="form-control" id="s2")
+                    option(value='a0' selected) 100%
+                    option(value='90') 90%
+                    option(value='80') 80%
+                    option(value='70') 70%
+                    option(value='60') 60%
+                    option(value='50') 50%
+                    option(value='40') 40%
+                    option(value='30') 30%
+                    option(value='20') 20%
+                    option(value='10') 10%
+                    option(value='00') 0%
+              br
+              br
+              .form-row
+                .col-6
+                  label Time
+                  select(class="form-control" id="s2_hh")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+
+                .col-6
+                  label &nbsp;
+                  select(class="form-control" id="s2_mm")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+                    option(value='24') 24
+                    option(value='25') 25
+                    option(value='26') 26
+                    option(value='27') 27
+                    option(value='28') 28
+                    option(value='29') 29
+                    option(value='30') 30
+                    option(value='31') 31
+                    option(value='32') 32
+                    option(value='33') 33
+                    option(value='34') 34
+                    option(value='35') 35
+                    option(value='36') 36
+                    option(value='37') 37
+                    option(value='38') 38
+                    option(value='39') 39
+                    option(value='40') 40
+                    option(value='41') 41
+                    option(value='42') 42
+                    option(value='43') 43
+                    option(value='44') 44
+                    option(value='45') 45
+                    option(value='46') 46
+                    option(value='47') 47
+                    option(value='48') 48
+                    option(value='49') 49
+                    option(value='50') 50
+                    option(value='51') 51
+                    option(value='52') 52
+                    option(value='53') 53
+                    option(value='54') 54
+                    option(value='55') 55
+                    option(value='56') 56
+                    option(value='57') 57
+                    option(value='58') 58
+                    option(value='59') 59
+
+          .col-3
+            h6.border-bottom Session 3
+            br
+            .form-group
+              .form-row
+                .col-12
+                  label Brightness
+                  select(class="form-control" id="s3")
+                      option(value='a0' selected) 100%
+                      option(value='90') 90%
+                      option(value='80') 80%
+                      option(value='70') 70%
+                      option(value='60') 60%
+                      option(value='50') 50%
+                      option(value='40') 40%
+                      option(value='30') 30%
+                      option(value='20') 20%
+                      option(value='10') 10%
+                      option(value='00') 0%
+              br
+              br
+              .form-row
+                .col-6
+                  label Time
+                  select(class="form-control" id="s3_hh")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+
+                .col-6
+                  label &nbsp;
+                  select(class="form-control" id="s3_mm")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+                    option(value='24') 24
+                    option(value='25') 25
+                    option(value='26') 26
+                    option(value='27') 27
+                    option(value='28') 28
+                    option(value='29') 29
+                    option(value='30') 30
+                    option(value='31') 31
+                    option(value='32') 32
+                    option(value='33') 33
+                    option(value='34') 34
+                    option(value='35') 35
+                    option(value='36') 36
+                    option(value='37') 37
+                    option(value='38') 38
+                    option(value='39') 39
+                    option(value='40') 40
+                    option(value='41') 41
+                    option(value='42') 42
+                    option(value='43') 43
+                    option(value='44') 44
+                    option(value='45') 45
+                    option(value='46') 46
+                    option(value='47') 47
+                    option(value='48') 48
+                    option(value='49') 49
+                    option(value='50') 50
+                    option(value='51') 51
+                    option(value='52') 52
+                    option(value='53') 53
+                    option(value='54') 54
+                    option(value='55') 55
+                    option(value='56') 56
+                    option(value='57') 57
+                    option(value='58') 58
+                    option(value='59') 59
+
+          .col-3
+            h6.border-bottom Session 4
+            br
+            .form-group
+              .form-row
+                .col-12
+                  label Brightness
+                  select(class="form-control" id="s4")
+                      option(value='a0' selected) 100%
+                      option(value='90') 90%
+                      option(value='80') 80%
+                      option(value='70') 70%
+                      option(value='60') 60%
+                      option(value='50') 50%
+                      option(value='40') 40%
+                      option(value='30') 30%
+                      option(value='20') 20%
+                      option(value='10') 10%
+                      option(value='00') 0%
+              br
+              br
+              .form-row
+                .col-6
+                  label Time
+                  select(class="form-control" id="s4_hh")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+                  
+                .col-6
+                  label &nbsp;
+                  select(class="form-control" id="s4_mm")
+                    option(value='00' selected) 00
+                    option(value='01') 01
+                    option(value='02') 02
+                    option(value='03') 03
+                    option(value='04') 04
+                    option(value='05') 05
+                    option(value='06') 06
+                    option(value='07') 07
+                    option(value='08') 08
+                    option(value='09') 09
+                    option(value='10') 10
+                    option(value='11') 11
+                    option(value='12') 12
+                    option(value='13') 13
+                    option(value='14') 14
+                    option(value='15') 15
+                    option(value='16') 16
+                    option(value='17') 17
+                    option(value='18') 18
+                    option(value='19') 19
+                    option(value='20') 20
+                    option(value='21') 21
+                    option(value='22') 22
+                    option(value='23') 23
+                    option(value='24') 24
+                    option(value='25') 25
+                    option(value='26') 26
+                    option(value='27') 27
+                    option(value='28') 28
+                    option(value='29') 29
+                    option(value='30') 30
+                    option(value='31') 31
+                    option(value='32') 32
+                    option(value='33') 33
+                    option(value='34') 34
+                    option(value='35') 35
+                    option(value='36') 36
+                    option(value='37') 37
+                    option(value='38') 38
+                    option(value='39') 39
+                    option(value='40') 40
+                    option(value='41') 41
+                    option(value='42') 42
+                    option(value='43') 43
+                    option(value='44') 44
+                    option(value='45') 45
+                    option(value='46') 46
+                    option(value='47') 47
+                    option(value='48') 48
+                    option(value='49') 49
+                    option(value='50') 50
+                    option(value='51') 51
+                    option(value='52') 52
+                    option(value='53') 53
+                    option(value='54') 54
+                    option(value='55') 55
+                    option(value='56') 56
+                    option(value='57') 57
+                    option(value='58') 58
+                    option(value='59') 59
+
+    script(src='javascripts/superadmin/mode.js')

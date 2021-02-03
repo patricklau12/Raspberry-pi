@@ -1,0 +1,194 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Dimming Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floor Plan
+
+          li.nav-item
+            a.nav-link(href='/account')
+                span(class="fas fa-user-cog")
+                span User Management
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col-12
+          br
+      
+      .row.border-bottom
+        .col-12
+          h2(id="site_name") #{user.site}
+        .col-12
+          h4 Schedule Dimming
+        br
+
+      .row
+        .col-6
+          .form-inline
+            label Location
+            select(class="form-control" id="block_select" onchange='refreshTable(this)')
+              option(value='SELECT' selected) Select... 
+      
+      .row
+        .col-12
+          br
+
+      .row
+        .col-12
+          table(class='table'
+                id='dim_table'
+                data-toggle='table'
+                data-sortable='true'
+                data-pagination='true'
+                data-click-to-select='true'
+                data-unique-id='group'
+                data-height='300')
+            thead(class='thead-dark')
+              tr
+                th(rowspan='2' data-field='group' data-width='200' data-halign='center' data-align='center' data-sortable='true') Group
+                th(rowspan='2' data-field='num' data-halign='center' data-align='center') No. of Lamps
+                th(data-halign='center') Monday - Friday
+                th(data-halign='center') Saturday
+                th(data-halign='center') Sunday
+                th(colspan='3' data-halign='center') Spare
+              tr
+                th(data-field='a' data-halign='center' data-align='center') Mode A
+                th(data-field='b' data-halign='center' data-align='center') Mode B
+                th(data-field='c' data-halign='center' data-align='center') Mode C
+                th(data-field='d' data-halign='center' data-align='center') Mode D
+                th(data-field='e' data-halign='center' data-align='center') Mode E
+                th(data-field='f' data-halign='center' data-align='center') Mode F
+          br
+          br
+
+      .row
+        .col-1
+          br
+        
+        .col-5
+          .form-row
+            .col-12
+              .input-group
+                .input-group-prepend
+                  span.input-group-text Group
+                input.form-control(type='text' id='group_name' disabled)
+          br  
+        
+        .col-5
+          .form-row
+            .col-4
+              button(class='btn btn-info' onclick='setDimming(this)')
+                span(class='fas fa-tasks')
+                span Set Dimming Schedule
+        
+        .col-1
+          br
+      
+      .row
+        .col-1
+          br
+        
+        .col-10
+          .form-row
+            .col-4
+              label Mode A (Monday - Friday)
+              select(class='form-control' id='modeA')
+
+            .col-4
+              label Mode B (Saturday)
+              select(class='form-control' id='modeB')
+                
+            .col-4
+              label Mode C (Sunday)
+              select(class='form-control' id='modeC')
+          br
+
+          .form-row
+            .col-4
+              label Mode D (Spare)
+              select(class='form-control' id='modeD')
+
+            .col-4
+              label Mode E (Spare)
+              select(class='form-control' id='modeE')
+
+            .col-4
+              label Mode F (Spare)
+              select(class='form-control' id='modeF')
+          br
+        
+        .col-1
+          br
+      
+    script(src='javascripts/admin/schedule_dim.js')
+      

@@ -1,1 +1,4 @@
-# Raspberry-pi
+# smart-toilet
+IoT Smart Toilet
+
+Linked Technologies Limited

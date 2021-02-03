@@ -1,0 +1,111 @@
+extends layout_viewer
+
+block content
+  body
+    .container
+      .row
+        .col-12
+          br
+
+      .row
+        .col-2
+          img(src="/toilet/toilet logo.png" style="width:100%")
+        
+        .col-8
+          br
+
+      .row.justify-content-center
+        .col-12
+          p(id='avaliable' style="font-size:70px; color:MediumSpringGreen") Available
+
+      .row
+        .col-12
+          br
+
+      .row
+        .col-12
+          .row
+            .col-12
+              br
+
+          .row
+            .col-6.border-right
+              .row
+                .col-12
+                  img(src="/toilet/boy.png" style="width:auto")
+
+                .col-12
+                  br
+
+                .col-12
+                  p(id='male' style="font-size:60px; color:MediumSpringGreen") 1
+                    |
+                    span(style="font-size:40px; color:White") &thinsp;/
+                    span(style="font-size:35px; color:White") 1
+
+            .col-6
+              .row
+                .col-12
+                  img(src="/toilet/girl.png" style="width:auto")
+
+                .col-12
+                  br
+
+                .col-12
+                  p(id='female' style="font-size:60px; color:MediumSpringGreen") 2
+                    |
+                    span(style="font-size:40px; color:White") &thinsp;/
+                    span(style="font-size:35px; color:White") 2
+
+          .row
+            .col-12
+              br
+          
+          .row.border-bottom.border-top.p-3
+            .col-4.p-3
+              img(id='accessible' src="/toilet/disabled.png" style="width:auto")
+
+            .col-4.p-3
+              img(src="/toilet/no-smoking.png" style="width:auto")
+
+            .col-4.p-3
+              img(id='nursery' src="/toilet/changing-room.png" style="width:auto")
+
+          .row
+            .col-12
+              br
+
+          .row.p-3
+            .col-4
+              .row
+                .col-12.p-1
+                  img(src="/toilet/thermometer.png" style="width:25%")
+                
+                .col-12.p-1
+                  p(id='temperature' style="font-size:40px; color:White") 00&#8451;
+                  //-span(style="font-size:30px; color:White") &thinsp;&#8451;
+
+            .col-4
+              .row
+                .col-12.p-1
+                  img(src="/toilet/humidity.png" style="width:30%")
+                
+              .row
+                .col-12.p-1
+                  p(id='humidity' style="font-size:40px; color:White") 00%
+                  //-span(style="font-size:30px; color:White") &thinsp;%
+
+            .col-4
+              .row
+                .col-12.p-1
+                  img(src="/toilet/AirQuality.png" style="width:50%")
+                
+              .row
+                .col-12.p-1
+                  p(id='airquality' style="font-size:40px; color:MediumSpringGreen") Good
+          
+      .row
+        .col-12
+          br
+  
+    script(src='javascripts/viewer.js')

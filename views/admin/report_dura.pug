@@ -1,0 +1,124 @@
+extends layout
+
+block content
+  .loader-wrapper
+    span.loader
+      span.loader-inner 
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:50px; padding-bottom:3px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          li.nav-item
+            a.nav-link(href='/home')
+              span(class="fas fa-home")
+              span Home
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='report_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Report
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/report_func')
+                span(class="fas fa-file-invoice")
+                span Functional Test Report
+              a.dropdown-item(href='/report_dura')
+                span(class="fas fa-file-alt")
+                span Duration Test Report
+              a.dropdown-item(href='/report_past')
+                span(class="fas fa-file-archive")
+                span Archive Test Report
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='schedule_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-clipboard-list")
+              span Schedule
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/mode')
+                span(class="fas fa-list-alt")
+                span Dimming Mode
+              a.dropdown-item(href='/schedule_test')
+                span(class="fas fa-list-alt")
+                span Schedule Testing
+              a.dropdown-item(href='/schedule_dim')
+                span(class="fas fa-list-alt")
+                span Schedule Dimming
+
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='device_dropdown' rol='button' data-toggle='dropdown')
+              span(class="fas fa-lightbulb")
+              span Device
+            div(class='dropdown-menu')
+              a.dropdown-item(href='/group')
+                span(class="fas fa-list-alt")
+                span Grouping &amp; Naming
+              a.dropdown-item(href='/floorplan')
+                span(class="fas fa-list-alt")
+                span Floor Plan
+
+          li.nav-item
+            a.nav-link(href='/account')
+                span(class="fas fa-user-cog")
+                span User Management
+
+          li.nav-item
+            a.nav-link(href='/signout')
+              span(class="fas fa-sign-out-alt")
+              span Logout
+
+        div(class="navbar-text" style="font-size: 14px !important; ")
+          span Logged in as #[strong #{user.username}]
+          br
+          span
+            | Get Support: Tel 
+            i +852 39969590 | 
+            | Email 
+            i info@avanlite.com
+
+    .container-fluid
+      .row
+        .col
+          br
+
+      .row.border-bottom
+        .col-12
+          h2(id="site_name") #{user.site}
+        .col-12
+          h4 Duration Test Report
+
+      .row
+        .col-12
+          .form-inline
+            label Location:
+            select(class="form-control" id="block_select" onchange='getReport(this)')
+              option(value='SELECT' selected) Location Select...
+
+            button(class='btn btn-info' onclick='download(this)' data-toggle="tooltip" data-placement="top" title="Download Report (PDF)")
+              span(class='fas fa-file-pdf')
+          br
+
+      .row-12
+        .col-12
+          table(class='table table-sm'
+                id='dura_table'
+                data-toggle='table'
+                data-sortable='true')
+            thead(class='thead-dark')
+              tr
+                th(data-field='dura_devices' data-width='200' data-halign='center' data-align='center' data-sortable='true') Device ID
+                th(data-field='dura_nickname' data-width='200' data-halign='center' data-align='center' data-sortable='true') Description
+                th(data-field='dura_group' data-halign='center' data-align='center' data-sortable='true') Group
+                th(data-field='dura_floor' data-width='200' data-halign='center' data-align='center' data-sortable='true') Floor
+                th(data-field='dura_type' data-width='200' data-halign='center' data-align='center' data-sortable='true') Type of Lamp
+                th(data-field='dura_watt' data-halign='center' data-align='center' data-sortable='true') Watt
+                th(data-field='dura_test_time' data-halign='center' data-align='center') Test Date
+                th(data-field='dura_discharge_time' data-width='150' data-halign='center' data-align='center') Discharge Time
+                th(data-field='dura_discharge_res' data-halign='center' data-align='center') Discharge Result
+                th(data-field='dura_test_res' data-width='150' data-halign='center' data-align='center') Test Result
+
+    script(src='javascripts/admin/report_dura.js')

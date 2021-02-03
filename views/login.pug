@@ -1,0 +1,59 @@
+extends layout_login
+
+block content
+  
+  body
+    nav.navbar.navbar-dark.bg-dark.navbar-expand-md.sticky-top  
+      a.navbar-brand(href='/home')
+        img(src="/images/Avanlite-Logo.png" style="height:51px; padding-bottom:0px;")
+      button.navbar-toggler(type="button" data-toggle="collapse" data-target="#collapsibleNavbar") 
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse(id="collapsibleNavbar")
+        ul.navbar-nav.mr-auto
+
+          
+        span(class="navbar-text1" ) Tel: +852 39969590 | Email: info@avanlite.com
+          
+
+  .loginbg
+    .container
+      
+      .row.justify-content-center
+        .col-4
+          br
+          
+        .col-4
+          br
+          br
+          br
+          .form-row
+            .col-12
+              img.img-fluid(src="/images/AIOT2.png" style="width: 90%; padding-bottom: 20px;")
+              br
+              br
+              br
+
+            .col-12
+              .wrapper(class="wrapper")
+                form(action='/signin' method='POST')
+                  label(for='username') User ID
+                  input(type='text', name='username' class='form-control', placeholder='User ID',required, autofocus)
+                  br
+
+                  label(for='password') Password
+                  input(type='password', name='password' class='form-control', placeholder='Password', required)
+                  br
+
+                  button(class='btn btn-lg login btn-block' type='submit') Sign in
+                  br
+                  if message.length
+                    div(id="message")
+                        div(class="alert alert-danger text-center") #{message}
+          
+        .col-4
+          br
+      
+         
+
+      
