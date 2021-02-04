@@ -12,7 +12,7 @@ const endpointSchema = mongoose.Schema({
 
   func_id:    {type: String, default: ''},
   func_res:   {type: String, default: ''},
-  func_date:  {type: String, default: ''},
+  func_date:  {type: String, default: ''},  
 
   dura_id:    {type: String, default: ''},
   dura_res:   {type: String, default: ''},
